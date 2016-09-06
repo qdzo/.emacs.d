@@ -361,11 +361,11 @@
   :config (powerline-default-theme))
 
 
-;; line numbers in left gutter
-(use-package nlinum
-  :config
-  (global-nlinum-mode))
-
+;; line numbers in left gutter (switched off, cos does not work with git-gutter)
+;; (use-package nlinum
+;;   :config
+;;   (global-nlinum-mode))
+(linum-mode 1)
 
 ;; pretty and nice scroll
 (use-package yascroll
@@ -553,8 +553,7 @@
         company-show-numbers t)
   (setup-company-mode)
   ;; fixed lowercased candidates on web-mode
-  (add-to-list 'company-dabbrev-code-modes 'web-mode)
-  )
+  (add-to-list 'company-dabbrev-code-modes 'web-mode))
 
 
 (use-package company-web
@@ -567,6 +566,8 @@
   :config (company-quickhelp-mode 1)
   (eval-after-load
       'company '(define-key company-active-map (kbd "M-h") #'company-quickhelp-manual-begin)))
+
+
 
 
 (use-package artist)
@@ -698,7 +699,7 @@ _0_: delete         _[_: shrink horizontal     ^^
 (use-package magit
   :bind ("C-c g" . magit-status))
 
-;; git gutter; (expertimental functionality with nlinum)
+;; git gutter; (expertimental functionality with linum) !!! doesn't work with nlinum !!!
 (use-package git-gutter
   :config
   (git-gutter:linum-setup)
