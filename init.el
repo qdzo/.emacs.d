@@ -440,11 +440,10 @@
   :bind ("M-x" . helm-M-x)
   ("C-x C-f" . helm-find-files)
   ("C-x b" . helm-buffers-list)
-  ("M-i" . helm-imenu)
+  ("M-i" . helm-imenu-in-all-buffers)
   ("M-y" . helm-show-kill-ring)
   ("M-m" . helm-bookmarks)
-  )
-
+  :config (helm-mode 1)) 
 
 
 
