@@ -454,12 +454,13 @@
 
 ;; setup local-loading docsets
 (defun setup-docset-for-dash ()
+  (interactive)
   (setq-local helm-dash-docsets
               (case major-mode
-                (js2-mode '("JavaScript" "AngularJS" "NodeJS" "jQuery" "UnderscoreJS"))
-                (web-mode '("HTML" "Emmet" "AngularJS"))
+                (js2-mode '("JavaScript" "NodeJS"))
+                (web-mode '("JavaScript"))
                 (css-mode '("CSS"))
-                (scss-mode '("CSS" "Compass")))))
+                (scss-mode '("CSS")))))
 
 
 ;; dash docsets integration
