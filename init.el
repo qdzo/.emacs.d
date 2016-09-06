@@ -382,47 +382,47 @@
 
 
 ;;replaces stock emacs completion with ido completion
-(use-package ido-ubiquitous
-  :init
-  (ido-mode 1)
-  (ido-everywhere 1)
-  :config
-  (ido-ubiquitous 1)
-  (setq magit-completing-read-function 'magit-ido-completing-read))
+;; (use-package ido-ubiquitous
+;;   :init
+;;   (ido-mode 1)
+;;   (ido-everywhere 1)
+;;   :config
+;;   (ido-ubiquitous 1)
+;;   (setq magit-completing-read-function 'magit-ido-completing-read))
 
 
-;; fuzzy search for ido (like sublime-text ctrl-p)
-(use-package flx-ido
-  :init (ido-mode 1)
-  (ido-everywhere 1)
-  :config (flx-ido-mode 1)
-  (setq ido-use-faces nil))
+;; ;; fuzzy search for ido (like sublime-text ctrl-p)
+;; (use-package flx-ido
+;;   :init (ido-mode 1)
+;;   (ido-everywhere 1)
+;;   :config (flx-ido-mode 1)
+;;   (setq ido-use-faces nil))
 
 
-;; ido for M-x
-(use-package smex
-  :bind (
-         ("M-x" . smex)
-         ("M-X" . smex-major-mode-commands)
-         ("C-c C-c M-x" . execute-extended-command)))
+;; ;; ido for M-x
+;; (use-package smex
+;;   :bind (
+;;          ("M-x" . smex)
+;;          ("M-X" . smex-major-mode-commands)
+;;          ("C-c C-c M-x" . execute-extended-command)))
 
 
-;; ido in vertical orientation
-(use-package ido-vertical-mode
-  :config
-  (ido-mode 1)
-  (setq ido-use-faces t)
-  (set-face-attribute 'ido-vertical-first-match-face nil
-                      :background nil
-                      :foreground "orange")
-  (set-face-attribute 'ido-vertical-only-match-face nil
-                      :background nil
-                      :foreground nil)
-  (set-face-attribute 'ido-vertical-match-face nil
-                      :foreground nil)
-  (setq ido-vertical-show-count t)
-  (ido-vertical-mode 1)
-  (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+;; ;; ido in vertical orientation
+;; (use-package ido-vertical-mode
+;;   :config
+;;   (ido-mode 1)
+;;   (setq ido-use-faces t)
+;;   (set-face-attribute 'ido-vertical-first-match-face nil
+;;                       :background nil
+;;                       :foreground "orange")
+;;   (set-face-attribute 'ido-vertical-only-match-face nil
+;;                       :background nil
+;;                       :foreground nil)
+;;   (set-face-attribute 'ido-vertical-match-face nil
+;;                       :foreground nil)
+;;   (setq ido-vertical-show-count t)
+;;   (ido-vertical-mode 1)
+;;   (setq ido-vertical-define-keys 'C-n-and-C-p-only))
 
 
 ;; key-describer for setted hot-keys
@@ -433,6 +433,18 @@
 ;;   ;; delay bettwen key-press and popup
 ;;   ;;(setq guide-key/idle-delay 0.1)
 ;;   )
+
+(use-package helm
+  :init (require 'helm-config)
+  (global-unset-key (kbd "C-M-i"))
+  :bind ("M-x" . helm-M-x)
+  ("C-x C-f" . helm-find-files)
+  ("C-x b" . helm-buffers-list)
+  ("M-i" . helm-imenu)
+  ("M-y" . helm-show-kill-ring)
+  ("M-m" . helm-bookmarks)
+  )
+
 
 
 
@@ -583,8 +595,8 @@
 
 ;; Similar to "f" command from vim
 (use-package iy-go-to-char
-  :bind ("M-m" . iy-go-to-char)
-  ("C-M-m" . iy-go-to-char-backward)
+  :bind ;;("M-m" . iy-go-to-char)
+   ;;  ("C-M-m" . iy-go-to-char-backward)
   :config (add-to-list 'mc/cursor-specific-vars 'iy-go-to-char-start-pos))
 
 
