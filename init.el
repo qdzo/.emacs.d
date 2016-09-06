@@ -2,7 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-
 ;;;;;;;;;;;;;;;;; BASIC UI ;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -498,20 +497,36 @@
 ;;   )
 
 
+;; setup auto-complete behavior to company 
+(defun setup-company-mode ()
+  (eval-after-load 'company
+    '(progn
+
+       (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+       (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
+       (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
+       (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
+       (setq company-require-match 'never))))
 
 
 ;; another auto-complete engine
 (use-package company
-  :init (use-package company-web)
   :config (add-hook 'after-init-hook 'global-company-mode)
-  (eval-after-load 'company
-  '(define-key company-active-map (kbd "M-h") #'company-quickhelp-manual-begin)))
-  
+  (setq company-minimum-prefix-length 2
+        company-show-numbers t)
+  (setup-company-mode))
 
-;; in-cursor position quickhelp
+
+(use-package company-web
+  :config (require 'company-web-html))
+
+
+;; In-cursor position quickhelp
 (use-package company-quickhelp
   :init (use-package pos-tip)
-  :config (company-quickhelp-mode 1))
+  :config (company-quickhelp-mode 1)
+  (eval-after-load
+      'company '(define-key company-active-map (kbd "M-h") #'company-quickhelp-manual-begin)))
 
 
 (use-package artist)
