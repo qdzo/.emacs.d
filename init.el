@@ -434,6 +434,8 @@
 ;;   ;;(setq guide-key/idle-delay 0.1)
 ;;   )
 
+
+;; search framework
 (use-package helm
   :init (require 'helm-config)
   (global-unset-key (kbd "C-M-i"))
@@ -443,8 +445,11 @@
   ("M-i" . helm-imenu-in-all-buffers)
   ("M-y" . helm-show-kill-ring)
   ("M-m" . helm-bookmarks)
-  :config (helm-mode 1)) 
+  :config (helm-mode 1))
 
+;; integration with projectile
+(use-package helm-projectile
+:config (helm-projectile-on))
 
 
 ;; func for god-mode cursor changing
