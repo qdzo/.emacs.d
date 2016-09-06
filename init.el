@@ -361,11 +361,11 @@
   :config (powerline-default-theme))
 
 
-;; line numbers in left gutter (switched off, cos does not work with git-gutter)
-;; (use-package nlinum
-;;   :config
-;;   (global-nlinum-mode))
-(linum-mode 1)
+;; line numbers in left gutter (faster than linum mode)
+(use-package nlinum
+  :config
+  (global-nlinum-mode))
+
 
 ;; pretty and nice scroll
 (use-package yascroll
@@ -679,16 +679,15 @@ _0_: delete         _[_: shrink horizontal     ^^
                   ("v" recenter-top-bottom "recenter")
                   ("q" nil "quit" :color blue)))
 
-;; git hunks navigation
+;; vcs hunks navigation
 (global-set-key (kbd "C-x g")
-                (defhydra hydra-git-gutter ()
+                (defhydra hydra-hl-diff ()
                   "goto-git-hunk"
-                  ("t" git-gutter:toggle "toggle")
-                  ("d" git-gutter:popup-hunk "popup diff hunk")
-                  ("p" git-gutter:previous-hunk "prev hunk")
-                  ("n" git-gutter:next-hunk "next hunk")
-                  ("s" git-gutter:state-hunk "state hunk")
-                  ("r" git-gutter:revert-hunk "revert hunk")
+                  ("g" diff-hl-diff-goto-hunk "goto diff hunk")
+                  ("p" diff-hl-previous-hunk "prev hunk")
+                  ("n" diff-hl-next-hunk "next hunk")
+                  ("m" diff-hl-state-hunk "mark hunk")
+                  ("r" diff-hl-revert-hunk "revert hunk")
                   ("q" nil "quit" :color blue)))
 
 
@@ -699,17 +698,10 @@ _0_: delete         _[_: shrink horizontal     ^^
 (use-package magit
   :bind ("C-c g" . magit-status))
 
-;; git gutter; (expertimental functionality with linum) !!! doesn't work with nlinum !!!
-(use-package git-gutter
-  :config
-  (git-gutter:linum-setup)
-  (global-git-gutter-mode +1))
-;; :bind("C-c g t" . git-gutter:toggle)
-;; ("C-c g p" . git-gutter:previous-hunk)
-;; ("C-c g n" . git-gutter:next-hunk)
-;; ("C-c g s" . git-gutter:state-hunk)
-;; ("C-c g r" . git-gutter:revert-hunk)
-;; ("C-c g m" . git-gutter:revert-hunk))
+
+;; fringle vcs highlight
+(use-package diff-hl
+  :config (diff-hl-flydiff-mode))
 
 ;; expand marked text
 (use-package expand-region
