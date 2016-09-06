@@ -551,7 +551,10 @@
   :config (add-hook 'after-init-hook 'global-company-mode)
   (setq company-minimum-prefix-length 2
         company-show-numbers t)
-  (setup-company-mode))
+  (setup-company-mode)
+  ;; fixed lowercased candidates on web-mode
+  (add-to-list 'company-dabbrev-code-modes 'web-mode)
+  )
 
 
 (use-package company-web
