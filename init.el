@@ -452,6 +452,27 @@
 :config (helm-projectile-on))
 
 
+;; setup local-loading docsets
+(defun setup-docset-for-dash ()
+  (setq-local helm-dash-docsets
+              (case major-mode
+                (js2-mode '("JavaScript" "AngularJS" "NodeJS" "jQuery" "UnderscoreJS"))
+                (web-mode '("HTML" "Emmet" "AngularJS"))
+                (css-mode '("CSS"))
+                (scss-mode '("CSS" "Compass")))))
+
+
+;; dash docsets integration
+(use-package helm-dash
+  ;; adding common docsets
+  :config (dolist (hook (list
+               'js2-mode-hook
+               'web-mode-hook
+               'css-mode-hook
+               'scss-mode-hook
+               ))
+  (add-hook hook 'setup-docsets-for-dash)))
+
 ;; func for god-mode cursor changing
 (defun q-update-cursor ()
   (setq cursor-type
