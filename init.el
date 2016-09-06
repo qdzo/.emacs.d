@@ -696,7 +696,9 @@ _0_: delete         _[_: shrink horizontal     ^^
 
 ;; git intergration
 (use-package magit
-  :bind ("C-c g" . magit-status))
+  :bind ("C-c g" . magit-status)
+  ;; diff-hl integration
+  :config (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
 
 ;; fringle vcs highlight
