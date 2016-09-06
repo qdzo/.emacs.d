@@ -485,17 +485,33 @@
 ;;(setq sublimity-scroll-drift-length 20))
 
 ;; auto complete
-(use-package auto-complete
-  :init (use-package fuzzy)
-  :config
-  (ac-config-default)
-  (setq ac-quick-help-delay 0.5
-        ac-fuzzy-cursor-color "green")
-  (add-to-list 'ac-sources 'ac-source-filename)
-  ;; fix for work with yasnippet
-  ;; (ac-set-trigger-key "TAB")
-  ;; (ac-set-trigger-key "<tab>")
-  )
+;; (use-package auto-complete
+;;   :init (use-package fuzzy)
+;;   :config
+;;   (ac-config-default)
+;;   (setq ac-quick-help-delay 0.5
+;;         ac-fuzzy-cursor-color "green")
+;;   (add-to-list 'ac-sources 'ac-source-filename)
+;;   ;; fix for work with yasnippet
+;;   ;; (ac-set-trigger-key "TAB")
+;;   ;; (ac-set-trigger-key "<tab>")
+;;   )
+
+
+
+
+;; another auto-complete engine
+(use-package company
+  :init (use-package company-web)
+  :config (add-hook 'after-init-hook 'global-company-mode)
+  (eval-after-load 'company
+  '(define-key company-active-map (kbd "M-h") #'company-quickhelp-manual-begin)))
+  
+
+;; in-cursor position quickhelp
+(use-package company-quickhelp
+  :init (use-package pos-tip)
+  :config (company-quickhelp-mode 1))
 
 
 (use-package artist)
@@ -692,10 +708,10 @@ _0_: delete         _[_: shrink horizontal     ^^
 
 ;; npm install -g tern
 ;; intelligent js autocomplete engine
-(use-package tern)
+;; (use-package tern)
 
 ;; auto-complete tern adaptor
-(use-package tern-auto-complete)
+;; (use-package tern-auto-complete)
 
 
 ;; usefull only for pure js/jsx files (without <script> tag or templates)
@@ -703,11 +719,13 @@ _0_: delete         _[_: shrink horizontal     ^^
   :init (setq js2-basic-offset 2)
   ;; :mode ("\\.js\\'" . js2-mode)
   :interpreter ("node" . js2-mode)
-  :config   (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
-  (eval-after-load 'tern
-    '(progn
-       (require 'tern-auto-complete)
-       (tern-ac-setup))))
+  ;; :config        
+  ;;(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+  ;; (eval-after-load 'tern
+  ;;   '(progn
+  ;;      (require 'tern-auto-complete)
+  ;;      (tern-ac-setup)))
+  )
 
 
 ;; refactore package for js
@@ -736,10 +754,13 @@ _0_: delete         _[_: shrink horizontal     ^^
 
 
 ;; json better highlighting and displaying path of json-object (C-c C-p)
-(use-package json-mode
+(use-package json-mode)
   ;; disable checking json
-  :config   (setq-default flycheck-disabled-checkers
-                          (append flycheck-disabled-checkers '(json-jsonlint))))
+  ;; :config
+  ;; FIX flycheck-disabled-checkers as varible is void
+  ;; (setq-default flycheck-disabled-checkers
+  ;;                         (append flycheck-disabled-checkers '(json-jsonlint)
+;; )))
 
 
 
