@@ -361,7 +361,7 @@
   :config (powerline-default-theme))
 
 
-;; line numbers in left gutter
+;; line numbers in left gutter (faster than linum mode)
 (use-package nlinum
   :config
   (global-nlinum-mode))
@@ -454,12 +454,13 @@
 
 ;; setup local-loading docsets
 (defun setup-docset-for-dash ()
+  (interactive)
   (setq-local helm-dash-docsets
               (case major-mode
-                (js2-mode '("JavaScript" "AngularJS" "NodeJS" "jQuery" "UnderscoreJS"))
-                (web-mode '("HTML" "Emmet" "AngularJS"))
+                (js2-mode '("JavaScript" "NodeJS"))
+                (web-mode '("JavaScript"))
                 (css-mode '("CSS"))
-                (scss-mode '("CSS" "Compass")))))
+                (scss-mode '("CSS")))))
 
 
 ;; dash docsets integration
@@ -553,9 +554,7 @@
   (setup-company-mode)
   ;; fixed lowercased candidates on web-mode
   ;; WARN i use setq instead of add-to-list, cos var is not exists yet
-  (setq company-dabbrev-code-modes '('web-mode))
-  )
-
+  (setq company-dabbrev-code-modes '('web-mode)))
 
 (use-package company-web
   :config (require 'company-web-html))
@@ -567,6 +566,8 @@
   :config (company-quickhelp-mode 1)
   (eval-after-load
       'company '(define-key company-active-map (kbd "M-h") #'company-quickhelp-manual-begin)))
+
+
 
 
 (use-package artist)
@@ -678,16 +679,15 @@ _0_: delete         _[_: shrink horizontal     ^^
                   ("v" recenter-top-bottom "recenter")
                   ("q" nil "quit" :color blue)))
 
-;; git hunks navigation
+;; vcs hunks navigation
 (global-set-key (kbd "C-x g")
-                (defhydra hydra-git-gutter ()
+                (defhydra hydra-hl-diff ()
                   "goto-git-hunk"
-                  ("t" git-gutter:toggle "toggle")
-                  ("d" git-gutter:popup-hunk "popup diff hunk")
-                  ("p" git-gutter:previous-hunk "prev hunk")
-                  ("n" git-gutter:next-hunk "next hunk")
-                  ("s" git-gutter:state-hunk "state hunk")
-                  ("r" git-gutter:revert-hunk "revert hunk")
+                  ("g" diff-hl-diff-goto-hunk "goto diff hunk")
+                  ("p" diff-hl-previous-hunk "prev hunk")
+                  ("n" diff-hl-next-hunk "next hunk")
+                  ("m" diff-hl-state-hunk "mark hunk")
+                  ("r" diff-hl-revert-hunk "revert hunk")
                   ("q" nil "quit" :color blue)))
 
 
@@ -696,19 +696,14 @@ _0_: delete         _[_: shrink horizontal     ^^
 
 ;; git intergration
 (use-package magit
-  :bind ("C-c g" . magit-status))
+  :bind ("C-c g" . magit-status)
+  ;; diff-hl integration
+  :config (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
-;; git gutter; (expertimental functionality with nlinum)
-(use-package git-gutter
-  :config
-  (git-gutter:linum-setup)
-  (global-git-gutter-mode +1))
-;; :bind("C-c g t" . git-gutter:toggle)
-;; ("C-c g p" . git-gutter:previous-hunk)
-;; ("C-c g n" . git-gutter:next-hunk)
-;; ("C-c g s" . git-gutter:state-hunk)
-;; ("C-c g r" . git-gutter:revert-hunk)
-;; ("C-c g m" . git-gutter:revert-hunk))
+
+;; fringle vcs highlight
+(use-package diff-hl
+  :config (diff-hl-flydiff-mode))
 
 ;; expand marked text
 (use-package expand-region
