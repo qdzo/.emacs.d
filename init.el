@@ -83,6 +83,13 @@
 (setq ring-bell-function 'ignore)
 
 
+;; enable basic copy/cup/paste keys
+(cua-mode t)
+
+
+;;enable replace selection by typing
+(delete-selection-mode t)
+
 ;; minor-mode for hiding mode-line
 ;; See http://bzg.fr/emacs-hide-mode-line.html
 ;; If you want to hide the mode-line in all new buffers
