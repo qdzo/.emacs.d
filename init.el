@@ -498,8 +498,7 @@
   (key-chord-define-global "ff" 'iy-go-to-char)
   (key-chord-define-global "bb" 'iy-go-to-char-backward)
   (key-chord-define-global "zz" 'god-local-mode)
-  (key-chord-define-global "gm" 'god-local-mode)
-  )
+  (key-chord-define-global "gm" 'god-local-mode))
 
 
 
@@ -553,7 +552,8 @@
         company-show-numbers t)
   (setup-company-mode)
   ;; fixed lowercased candidates on web-mode
-  (add-to-list 'company-dabbrev-code-modes 'web-mode)
+  ;; WARN i use setq instead of add-to-list, cos var is not exists yet
+  (setq company-dabbrev-code-modes '('web-mode))
   )
 
 
