@@ -708,7 +708,8 @@ _0_: delete         _[_: shrink horizontal     ^^
 
 ;; fringle vcs highlight
 (use-package diff-hl
-  :config (diff-hl-flydiff-mode))
+  :config (diff-hl-mode)
+  (diff-hl-flydiff-mode))
 
 ;; expand marked text
 (use-package expand-region
