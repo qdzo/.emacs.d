@@ -392,6 +392,72 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; END OF UI ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;; HYDRA ;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; package for custom menus (like modal modes but with hints)
+(use-package hydra)
+
+;; font zooming
+(global-set-key (kbd "C-+")
+                (defhydra hydra-zoom (:hint nil)
+                  "zoom"
+                  ("g" text-scale-increase "in")
+                  ("l" text-scale-decrease "out")
+                  ("q" nil "quit" :color blue)))
+
+
+;; windows management
+(global-set-key (kbd "C-x w")
+                (defhydra hydra-window (:hint nil)
+                  "
+^Splitting^         ^Sizing^                   ^Navigation^
+^^^^-----------------------------------------------------------
+_1_: close other    _\^_: enlarge vertical     _j_: jump 
+_2_: horizontal     _\__: shrink vertical        _s_: swap 
+_3_: vertical       _]_: enlarge horizontal    ^^
+_0_: delete         _[_: shrink horizontal     ^^
+^^                  _b_: balance windows      ^^
+"
+                  ("1" delete-other-windows)
+                  ("2" split-window-below)
+                  ("3" split-window-right)
+                  ("0" delete-window)
+                  ("^" enlarge-window )
+                  ("]" enlarge-window-horizontally)
+                  ("_" shrink-window)
+                  ("[" shrink-window-horizontally)
+                  ("b" balance-windows)
+                  ("s" ace-swap-window)
+                  ("j" ace-window)
+                  ("q" nil "quit" :color blue)))
+
+
+;; error navigation
+(global-set-key (kbd "C-x e")
+                (defhydra hydra-error ()
+                  "goto-error"
+                  ("a" first-error "first")
+                  ("n" next-error "next")
+                  ("p" previous-error "prev")
+                  ("v" recenter-top-bottom "recenter")
+                  ("q" nil "quit" :color blue)))
+
+;; vcs hunks navigation
+(global-set-key (kbd "C-x g")
+                (defhydra hydra-hl-diff ()
+                  "goto-git-hunk"
+                  ("g" diff-hl-diff-goto-hunk "goto diff hunk")
+                  ("p" diff-hl-previous-hunk "prev hunk")
+                  ("n" diff-hl-next-hunk "next hunk")
+                  ("m" diff-hl-state-hunk "mark hunk")
+                  ("r" diff-hl-revert-hunk "revert hunk")
+                  ("q" nil "quit" :color blue)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;; END OF HYDRA ;;;;;;;;;;;;;;;;;;;;;
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; UNKNOWN ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -489,25 +555,6 @@
                ))
   (add-hook hook 'setup-docsets-for-dash)))
 
-;; emulation of vim leader-key
-(use-package evil-leader 
-  :config (global-evil-leader-mode)
-  (evil-leader/set-leader "<SPC>"))
-
-
-;; vim emulation
-(use-package evil
-  :config (evil-mode 1)
-  (evil-leader/set-key
-  "f" 'helm-find-files
-  "b" 'helm-buffer
-  "k" 'helm-buffer-run-kill-buffers))
-
-
-;; vim surround port
-(use-package evil-surround
-  :config (global-evil-surround-mode 1))
-
 
 ;; amazing key-chording package
 (use-package key-chord
@@ -522,14 +569,38 @@
 
 
 
+
+;; emulation of vim leader-key
+(use-package evil-leader 
+  :config (global-evil-leader-mode)
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-key
+  "f" 'helm-find-files
+  "b" 'helm-buffer
+  "k" 'helm-buffer-run-kill-buffers
+  "/" 'ace-jump-char-mode
+  "l" 'ace-jump-line-mode
+  "w" 'hydra-window/body
+  "e" 'hydra-error/body
+  "g" 'hydra-hl-diff/body))
+
+
 ;; vim emulation
-;; (use-package evil
-;;   :config (evil-mode -1)
+(use-package evil
+  :config (evil-mode 1)
 ;;   ;; remove all keybindings from insert-state keymap
 ;;   (setcdr evil-insert-state-map nil)
-;;   ;; but [escape] should switch back to normal state
 ;;   (define-key evil-insert-state-map [escape] 'evil-normal-state)
 ;;   (define-key evil-insert-state-map (kbd "jk") 'evil-normal-state))
+  (define-key evil-normal-state-map "a" 'evil-first-non-blank)
+  (define-key evil-normal-state-map "e" 'evil-end-of-line)
+  )
+
+
+;; vim surround port
+(use-package evil-surround
+  :config (global-evil-surround-mode 1))
+
 
 
 ;; sublime-like minimap, smooth-scrolling, distraction-free mode
@@ -652,71 +723,6 @@
   :bind ;;("M-m" . iy-go-to-char)
    ;;  ("C-M-m" . iy-go-to-char-backward)
   :config (add-to-list 'mc/cursor-specific-vars 'iy-go-to-char-start-pos))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;; HYDRA ;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; package for custom menus (like modal modes but with hints)
-(use-package hydra)
-
-;; font zooming
-(global-set-key (kbd "C-+")
-                (defhydra hydra-zoom (:hint nil)
-                  "zoom"
-                  ("g" text-scale-increase "in")
-                  ("l" text-scale-decrease "out")
-                  ("q" nil "quit" :color blue)))
-
-
-;; windows management
-(global-set-key (kbd "C-x w")
-                (defhydra hydra-window (:hint nil)
-                  "
-^Splitting^         ^Sizing^                   ^Navigation^
-^^^^-----------------------------------------------------------
-_1_: close other    _\^_: enlarge vertical     _j_: jump 
-_2_: horizontal     _\__: shrink vertical        _s_: swap 
-_3_: vertical       _]_: enlarge horizontal    ^^
-_0_: delete         _[_: shrink horizontal     ^^
-^^                  _b_: balance windows      ^^
-"
-                  ("1" delete-other-windows)
-                  ("2" split-window-below)
-                  ("3" split-window-right)
-                  ("0" delete-window)
-                  ("^" enlarge-window )
-                  ("]" enlarge-window-horizontally)
-                  ("_" shrink-window)
-                  ("[" shrink-window-horizontally)
-                  ("b" balance-windows)
-                  ("s" ace-swap-window)
-                  ("j" ace-window)
-                  ("q" nil "quit" :color blue)))
-
-
-;; error navigation
-(global-set-key (kbd "C-x e")
-                (defhydra hydra-error ()
-                  "goto-error"
-                  ("a" first-error "first")
-                  ("n" next-error "next")
-                  ("p" previous-error "prev")
-                  ("v" recenter-top-bottom "recenter")
-                  ("q" nil "quit" :color blue)))
-
-;; vcs hunks navigation
-(global-set-key (kbd "C-x g")
-                (defhydra hydra-hl-diff ()
-                  "goto-git-hunk"
-                  ("g" diff-hl-diff-goto-hunk "goto diff hunk")
-                  ("p" diff-hl-previous-hunk "prev hunk")
-                  ("n" diff-hl-next-hunk "next hunk")
-                  ("m" diff-hl-state-hunk "mark hunk")
-                  ("r" diff-hl-revert-hunk "revert hunk")
-                  ("q" nil "quit" :color blue)))
-
-
-;;;;;;;;;;;;;;;;;;;;;;; END OF HYDRA ;;;;;;;;;;;;;;;;;;;;;
 
 
 ;; git intergration
