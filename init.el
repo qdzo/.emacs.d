@@ -499,7 +499,8 @@
   :bind ("<escape>" . god-local-mode)
 :config (add-hook 'god-mode-enabled-hook 'q-update-cursor)
 (add-hook 'god-mode-disabled-hook 'q-update-cursor)
-(add-hook 'prog-mode-hook 'god-mode))
+(add-hook 'prog-mode-hook 'god-mode)
+(add-hook 'web-mode-hook 'god-mode))
 
 
 ;; amazing key-chording package
