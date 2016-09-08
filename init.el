@@ -538,12 +538,12 @@
 (defun setup-company-mode ()
   (eval-after-load 'company
     '(progn
-
        (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
        (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
        (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
        (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
-       (setq company-require-match 'never))))
+       (setq company-require-match 'never)
+       (setq company-idle-delay 0.2))))
 
 
 ;; another auto-complete engine
