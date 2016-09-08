@@ -367,6 +367,9 @@
 (use-package powerline
   :config (powerline-default-theme))
 
+;; vim like powerline (with modes)
+(use-package powerline-evil
+  :config (powerline-evil-vim-color-theme))
 
 ;; line numbers in left gutter (faster than linum mode)
 (use-package nlinum
@@ -453,7 +456,7 @@
   :bind ("M-x" . helm-M-x)
   ("C-x C-f" . helm-find-files)
   ("C-x b" . helm-buffers-list)
-  ("M-i" . helm-imenu-in-all-buffers)
+  ;; ("M-i" . helm-imenu-in-all-buffers)
   ("M-y" . helm-show-kill-ring)
   ("M-m" . helm-bookmarks)
   :config (helm-mode 1)
@@ -486,21 +489,24 @@
                ))
   (add-hook hook 'setup-docsets-for-dash)))
 
-;; func for god-mode cursor changing
-(defun q-update-cursor ()
-  (setq cursor-type
-        (if (or god-local-mode buffer-read-only)
-            'box
-          'bar)))
+;; emulation of vim leader-key
+(use-package evil-leader 
+  :config (global-evil-leader-mode)
+  (evil-leader/set-leader "<SPC>"))
 
 
-;; modal mode
-(use-package god-mode
-  :bind ("<escape>" . god-local-mode)
-:config (add-hook 'god-mode-enabled-hook 'q-update-cursor)
-(add-hook 'god-mode-disabled-hook 'q-update-cursor)
-(add-hook 'prog-mode-hook 'god-mode)
-(add-hook 'web-mode-hook 'god-mode))
+;; vim emulation
+(use-package evil
+  :config (evil-mode 1)
+  (evil-leader/set-key
+  "f" 'helm-find-files
+  "b" 'helm-buffer
+  "k" 'helm-buffer-run-kill-buffers))
+
+
+;; vim surround port
+(use-package evil-surround
+  :config (global-evil-surround-mode 1))
 
 
 ;; amazing key-chording package
@@ -512,8 +518,6 @@
   (key-chord-define-global "cc" 'ace-jump-char-mode)
   (key-chord-define-global "ff" 'iy-go-to-char)
   (key-chord-define-global "bb" 'iy-go-to-char-backward)
-  (key-chord-define-global "zz" 'god-local-mode)
-  (key-chord-define-global "gm" 'god-local-mode)
   (key-chord-define-global "gd" 'dumb-jump-go))
 
 
