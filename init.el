@@ -315,9 +315,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; UI ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;; (use-package monokai-theme
-;;   :config
-;;   (load-theme 'monokai t))
+(use-package monokai-theme
+  :config
+  (load-theme 'monokai t))
 
 ;; (use-package atom-one-dark-theme
 ;;   :config
@@ -384,7 +384,7 @@
 (use-package highlight-thing
   :config (global-highlight-thing-mode)
   (setq highlight-thing-what-thing 'word)
-  (setq highlight-thing-delay-seconds 1.5))
+  (setq highlight-thing-delay-seconds 2))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; END OF UI ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -456,7 +456,8 @@
   ("M-i" . helm-imenu-in-all-buffers)
   ("M-y" . helm-show-kill-ring)
   ("M-m" . helm-bookmarks)
-  :config (helm-mode 1))
+  :config (helm-mode 1)
+  (setq helm-display-buffer-default-height 15))
 
 ;; integration with projectile
 (use-package helm-projectile
@@ -497,7 +498,8 @@
 (use-package god-mode
   :bind ("<escape>" . god-local-mode)
 :config (add-hook 'god-mode-enabled-hook 'q-update-cursor)
-(add-hook 'god-mode-disabled-hook 'q-update-cursor))
+(add-hook 'god-mode-disabled-hook 'q-update-cursor)
+(add-hook 'prog-mode-hook 'god-mode))
 
 
 ;; amazing key-chording package
@@ -555,7 +557,9 @@
        (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
        (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
        (setq company-require-match 'never)
-       (setq company-idle-delay 0.2))))
+       (setq company-idle-delay 0.2)
+       ; align annotations to the right tooltip border
+       (setq company-tooltip-align-annotations 't))))
 
 
 ;; another auto-complete engine
@@ -566,7 +570,11 @@
   (setup-company-mode)
   ;; fixed lowercased candidates on web-mode
   ;; WARN i use setq instead of add-to-list, cos var is not exists yet
-  (setq company-dabbrev-code-modes '('web-mode)))
+  ;; (setq company-dabbrev-code-modes '('web-mode))
+
+  )
+
+
 
 (use-package company-web
   :config (require 'company-web-html))
@@ -755,6 +763,12 @@ _0_: delete         _[_: shrink horizontal     ^^
           ad-do-it)
       ad-do-it)))
 
+;; fix for lowercased completions in web-mode 
+(defun integrate-web-mode-with-company-mode ()
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (add-to-list 'company-dabbrev-code-modes 'web-mode)  )))
+
 
 ;; web mode to use with ReactJS working
 ;; cos we have mixed content of JS/XML
@@ -763,7 +777,8 @@ _0_: delete         _[_: shrink horizontal     ^^
          ("\\.es\\'" . web-mode))
   :interpreter ("node" . web-mode)
   :config (setup-web-mode)
-  (setup-reactjs-in-web-mode))
+  (setup-reactjs-in-web-mode)
+  (integrate-web-mode-with-company-mode))
 
 
 ;;;;;;;;;;;;;;;; JS mode ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -994,7 +1009,7 @@ _0_: delete         _[_: shrink horizontal     ^^
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(hi-yellow ((t (:background "medium blue" :foreground "light gray")))))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
