@@ -83,6 +83,13 @@
 (setq ring-bell-function 'ignore)
 
 
+;; enable basic copy/cup/paste keys
+(cua-mode t)
+
+
+;;enable replace selection by typing
+(delete-selection-mode t)
+
 ;; minor-mode for hiding mode-line
 ;; See http://bzg.fr/emacs-hide-mode-line.html
 ;; If you want to hide the mode-line in all new buffers
@@ -312,9 +319,9 @@
 ;;   :config
 ;;   (load-theme 'monokai t))
 
-(use-package atom-one-dark-theme
-  :config
-  (load-theme 'atom-one-dark t))
+;; (use-package atom-one-dark-theme
+;;   :config
+;;   (load-theme 'atom-one-dark t))
 
 ;; solarized theme
 ;; (use-package solarized-theme
@@ -374,6 +381,10 @@
 
 
 
+(use-package highlight-thing
+  :config (global-highlight-thing-mode)
+  (setq highlight-thing-what-thing 'word)
+  (setq highlight-thing-delay-seconds 1.5))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; END OF UI ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -499,7 +510,8 @@
   (key-chord-define-global "ff" 'iy-go-to-char)
   (key-chord-define-global "bb" 'iy-go-to-char-backward)
   (key-chord-define-global "zz" 'god-local-mode)
-  (key-chord-define-global "gm" 'god-local-mode))
+  (key-chord-define-global "gm" 'god-local-mode)
+  (key-chord-define-global "gd" 'dumb-jump-go))
 
 
 
@@ -703,7 +715,8 @@ _0_: delete         _[_: shrink horizontal     ^^
 
 ;; fringle vcs highlight
 (use-package diff-hl
-  :config (diff-hl-flydiff-mode))
+  :config (diff-hl-mode)
+  (diff-hl-flydiff-mode))
 
 ;; expand marked text
 (use-package expand-region
@@ -815,6 +828,10 @@ _0_: delete         _[_: shrink horizontal     ^^
 
 
 ;;;;;;;;;;;;;;; DEVELOPMENT HELPERS ;;;;;;;;;;;;;;;;;
+
+;; go-to-definition without generating tags
+;; use ag/grep
+(use-package dumb-jump)
 
 (defun setup-reactjs-dev-workflow ()
   "Setup react-js dev workflow by setiing eslint as an linter and bind it to web-mode."
