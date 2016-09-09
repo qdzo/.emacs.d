@@ -414,14 +414,14 @@
 ^Splitting^         ^Sizing^                   ^Navigation^
 ^^^^-----------------------------------------------------------
 _1_: close other    _\^_: enlarge vertical     _j_: jump 
-_2_: horizontal     _\__: shrink vertical        _s_: swap 
-_3_: vertical       _]_: enlarge horizontal    ^^
+_s_: horizontal     _\__: shrink vertical        _s_: swap 
+_v_: vertical       _]_: enlarge horizontal    ^^
 _0_: delete         _[_: shrink horizontal     ^^
 ^^                  _b_: balance windows      ^^
 "
                   ("1" delete-other-windows)
-                  ("2" split-window-below)
-                  ("3" split-window-right)
+                  ("s" split-window-below)
+                  ("v" split-window-right)
                   ("0" delete-window)
                   ("^" enlarge-window )
                   ("]" enlarge-window-horizontally)
@@ -453,6 +453,16 @@ _0_: delete         _[_: shrink horizontal     ^^
                   ("m" diff-hl-state-hunk "mark hunk")
                   ("r" diff-hl-revert-hunk "revert hunk")
                   ("q" nil "quit" :color blue)))
+
+
+;; projectile common comands
+(defhydra hydra-projectile ()
+  "prjctile"
+  ("f" helm-projectile-find-file "find file")
+  ("b" helm-projectile-switch-to-buffer "buffer")
+  ("g" helm-projectile-grep "grep")
+  ("p" helm-projectile-switch-project "switch project")
+  ("i" helm-projectile-ff-etags-select-action "tags"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;; END OF HYDRA ;;;;;;;;;;;;;;;;;;;;;
@@ -573,16 +583,21 @@ _0_: delete         _[_: shrink horizontal     ^^
   :config (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
-  ";" 'helm-M-x
-  "x" 'eval-last-sexp
-  "f" 'helm-find-files
-  "b" 'helm-buffer
-  "k" 'helm-buffer-run-kill-buffers
-  "/" 'ace-jump-char-mode
-  "l" 'ace-jump-line-mode
-  "w" 'hydra-window/body
-  "e" 'hydra-error/body
-  "g" 'hydra-hl-diff/body))
+    "s" 'save-buffer
+    "o" 'ace-window
+    "d" 'dumb-jump-go 
+    "n" 'neotree-toggle
+    ";" 'helm-M-x
+    "x" 'eval-last-sexp
+    "f" 'helm-find-files
+    "b" 'helm-buffers-list
+    "k" 'helm-buffer-run-kill-buffers
+    "/" 'ace-jump-char-mode
+    "l" 'ace-jump-line-mode
+    "w" 'hydra-window/body
+    "e" 'hydra-error/body
+    "g" 'hydra-hl-diff/body
+    "p" 'hydra-projectile/body))
 
 
 ;; vim emulation
@@ -672,6 +687,7 @@ _0_: delete         _[_: shrink horizontal     ^^
 
 ;; fast window navigation
 (use-package ace-window
+  :config (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   :bind ("M-p" . ace-window)
   ("C-x o" . ace-window)
   ;;  ("C-x 1" . ace-maximize-window)
