@@ -563,8 +563,6 @@ _0_: delete         _[_: shrink horizontal     ^^
   (setq key-chord-two-keys-delay 0.1
         key-chord-one-key-delay 0.15)
   (key-chord-define-global "cc" 'ace-jump-char-mode)
-  (key-chord-define-global "ff" 'iy-go-to-char)
-  (key-chord-define-global "bb" 'iy-go-to-char-backward)
   (key-chord-define-global "gd" 'dumb-jump-go))
 
 
@@ -575,6 +573,8 @@ _0_: delete         _[_: shrink horizontal     ^^
   :config (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
+  ";" 'helm-M-x
+  "x" 'eval-last-sexp
   "f" 'helm-find-files
   "b" 'helm-buffer
   "k" 'helm-buffer-run-kill-buffers
@@ -717,12 +717,6 @@ _0_: delete         _[_: shrink horizontal     ^^
   ("C-r" . phi-search-backward)
   ("M-%" . phi-replace-query))
 
-
-;; Similar to "f" command from vim
-(use-package iy-go-to-char
-  :bind ;;("M-m" . iy-go-to-char)
-   ;;  ("C-M-m" . iy-go-to-char-backward)
-  :config (add-to-list 'mc/cursor-specific-vars 'iy-go-to-char-start-pos))
 
 
 ;; git intergration
