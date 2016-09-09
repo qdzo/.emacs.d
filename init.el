@@ -414,14 +414,14 @@
 ^Splitting^         ^Sizing^                   ^Navigation^
 ^^^^-----------------------------------------------------------
 _1_: close other    _\^_: enlarge vertical     _j_: jump 
-_s_: horizontal     _\__: shrink vertical        _s_: swap 
-_v_: vertical       _]_: enlarge horizontal    ^^
+_2_: horizontal     _\__: shrink vertical        _s_: swap 
+_3_: vertical       _]_: enlarge horizontal    ^^
 _0_: delete         _[_: shrink horizontal     ^^
 ^^                  _b_: balance windows      ^^
 "
                   ("1" delete-other-windows)
-                  ("s" split-window-below)
-                  ("v" split-window-right)
+                  ("2" split-window-below)
+                  ("3" split-window-right)
                   ("0" delete-window)
                   ("^" enlarge-window )
                   ("]" enlarge-window-horizontally)
@@ -607,8 +607,8 @@ _0_: delete         _[_: shrink horizontal     ^^
 ;;   (setcdr evil-insert-state-map nil)
 ;;   (define-key evil-insert-state-map [escape] 'evil-normal-state)
 ;;   (define-key evil-insert-state-map (kbd "jk") 'evil-normal-state))
-  (define-key evil-normal-state-map "a" 'evil-first-non-blank)
-  (define-key evil-normal-state-map "e" 'evil-end-of-line)
+  ;; (define-key evil-normal-state-map "a" 'evil-first-non-blank)
+  ;; (define-key evil-normal-state-map "e" 'evil-end-of-line)
   )
 
 
