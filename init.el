@@ -462,8 +462,8 @@ _0_: delete         _[_: shrink horizontal     ^^
   ("b" helm-projectile-switch-to-buffer "buffer")
   ("g" helm-projectile-grep "grep")
   ("p" helm-projectile-switch-project "switch project")
-  ("i" helm-projectile-ff-etags-select-action "tags"))
-
+  ("i" helm-projectile-ff-etags-select-action "tags")
+  ("q" nil "quit" :color blue))
 
 ;;;;;;;;;;;;;;;;;;;;;;; END OF HYDRA ;;;;;;;;;;;;;;;;;;;;;
 
@@ -670,6 +670,8 @@ _0_: delete         _[_: shrink horizontal     ^^
 (use-package company-web
   :config (require 'company-web-html))
 
+(use-package company-tern
+  :config (add-to-list 'company-backends 'company-tern))
 
 ;; In-cursor position quickhelp
 (use-package company-quickhelp
@@ -799,7 +801,9 @@ _0_: delete         _[_: shrink horizontal     ^^
   :interpreter ("node" . web-mode)
   :config (setup-web-mode)
   (setup-reactjs-in-web-mode)
-  (integrate-web-mode-with-company-mode))
+  (integrate-web-mode-with-company-mode)
+  (add-hook 'web-mode-hook (lambda () (tern-mode t)))
+  )
 
 
 ;;;;;;;;;;;;;;;; JS mode ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -807,10 +811,7 @@ _0_: delete         _[_: shrink horizontal     ^^
 
 ;; npm install -g tern
 ;; intelligent js autocomplete engine
-;; (use-package tern)
-
-;; auto-complete tern adaptor
-;; (use-package tern-auto-complete)
+(use-package tern)
 
 
 ;; usefull only for pure js/jsx files (without <script> tag or templates)
@@ -818,8 +819,8 @@ _0_: delete         _[_: shrink horizontal     ^^
   :init (setq js2-basic-offset 2)
   ;; :mode ("\\.js\\'" . js2-mode)
   :interpreter ("node" . js2-mode)
-  ;; :config        
-  ;;(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+  :config        
+  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
   ;; (eval-after-load 'tern
   ;;   '(progn
   ;;      (require 'tern-auto-complete)
