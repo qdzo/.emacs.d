@@ -597,7 +597,15 @@ _0_: delete         _[_: shrink horizontal     ^^
     "w" 'hydra-window/body
     "e" 'hydra-error/body
     "g" 'hydra-hl-diff/body
-    "p" 'hydra-projectile/body))
+    "p" 'hydra-projectile/body
+    ;; nerd-commenter keys
+    "ci" 'evilnc-comment-or-uncomment-lines
+    "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+    "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
+    "cc" 'evilnc-copy-and-comment-lines
+    "cp" 'evilnc-comment-or-uncomment-paragraphs
+    "cr" 'comment-or-uncomment-region
+    "cv" 'evilnc-toggle-invert-comment-line-by-line))
 
 
 (defun setup-ergo-evil-keys ()
@@ -619,7 +627,7 @@ _0_: delete         _[_: shrink horizontal     ^^
   (define-key evil-normal-state-map "S" 'evil-insert-newline-above)
   (define-key evil-normal-state-map "d" 'evil-append-line)
   (define-key evil-normal-state-map "D" 'evil-insert-newline-below)
-   (define-key evil-normal-state-map "O" 'evil-forward-sentence-begin)
+  (define-key evil-normal-state-map "O" 'evil-forward-sentence-begin)
   (define-key evil-normal-state-map "A" 'evil-visual-line)
   (define-key evil-normal-state-map "z" 'undo-tree-undo)
   (define-key evil-normal-state-map "Z" 'undo-tree-redo)
@@ -635,18 +643,18 @@ _0_: delete         _[_: shrink horizontal     ^^
   (define-key evil-normal-state-map ";" 'evil-ex)
   )
 
+
+;; remove all keybindings from insert-state keymap
+(defun setup-emacs-keys-in-insert-mode ()
+  (setcdr evil-insert-state-map nil)
+  (define-key evil-insert-state-map [escape] 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "jk") 'evil-normal-state)) 
+
+
 ;; vim emulation
 (use-package evil
   :config (evil-mode 1)
-;; (setup-ergo-evil-keys)
-
-;;   ;; remove all keybindings from insert-state keymap
-;;   (setcdr evil-insert-state-map nil)
-;;   (define-key evil-insert-state-map [escape] 'evil-normal-state)
-;;   (define-key evil-insert-state-map (kbd "jk") 'evil-normal-state))
-  ;; (define-key evil-normal-state-map "a" 'evil-first-non-blank)
-  ;; (define-key evil-normal-state-map "e" 'evil-end-of-line)
-  )
+  (setup-emacs-keys-in-insert-mode))
 
 
 ;; vim surround port
@@ -654,7 +662,15 @@ _0_: delete         _[_: shrink horizontal     ^^
   :config (global-evil-surround-mode 1))
 
 
-
+(use-package evil-nerd-commenter
+  :config (evilnc-default-hotkeys)
+  :bind 
+;; Emacs key bindings
+("M-;" . evilnc-comment-or-uncomment-lines)
+;; ("C-c l" . evilnc-quick-comment-or-uncomment-to-the-line)
+("C-M-;" . evilnc-copy-and-comment-lines)
+;; ("C-c p" . evilnc-comment-or-uncomment-paragraphs)
+  )
 ;; sublime-like minimap, smooth-scrolling, distraction-free mode
 ;; lags on big files (200000 lines 3,4mb) scroll unreal
 ;;(use-package sublimity
@@ -1010,7 +1026,7 @@ _0_: delete         _[_: shrink horizontal     ^^
       (kill-buffer buffer)
       (message buffer-name)
       (async-shell-command command buffer-name)
-      (switch-to-buffer-other-window buffer-name))))
+      (switch-to-bufier-other-window buffer-name))))
 
 
 ;; TODO: define usage of above function
@@ -1039,7 +1055,7 @@ _0_: delete         _[_: shrink horizontal     ^^
 (global-set-key (kbd "C-0") 'delete-window)
 
 (global-set-key (kbd "C-x /") 'q-edit-init-file)
-(global-set-key (kbd "C-M-;") 'q-copy-range-and-comment)
+;; (global-set-key (kbd "C-M-;") 'q-copy-range-and-comment)
 
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
