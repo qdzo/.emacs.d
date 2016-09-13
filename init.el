@@ -630,8 +630,10 @@ _0_: delete         _[_: shrink horizontal     ^^
   (define-key evil-normal-state-map "O" 'evil-forward-sentence-begin)
   (define-key evil-normal-state-map "A" 'evil-visual-line)
   (define-key evil-normal-state-map "z" 'undo-tree-undo)
+  (define-key evil-normal-state-map "\C-z" 'undo-tree-visualize-undo)
   (define-key evil-normal-state-map "Z" 'undo-tree-redo)
-  (define-key evil-normal-state-map "X" 'evil-delete)
+  (define-key evil-normal-state-map "x" 'evil-delete)
+  (define-key evil-normal-state-map "X" 'evil-delete-line)
   (define-key evil-normal-state-map "v" 'evil-paste-before)
   (define-key evil-normal-state-map "V" 'evil-paste-after)
   (define-key evil-normal-state-map "-" 'evil-jump-backward)
@@ -643,6 +645,51 @@ _0_: delete         _[_: shrink horizontal     ^^
   (define-key evil-normal-state-map ";" 'evil-ex)
   )
 
+
+
+;; (defvar ergo-evil-keys (list
+;;   '("h" 'evil-first-non-blank)
+;;   '("H" 'evil-end-of-line)
+;;   '("j" 'evil-backward-char)
+;;   '("k" 'evil-next-line)
+;;   '("K" 'evil-forward-paragraph)
+;;   '("i" 'evil-previous-line)
+;;   '("I" 'evil-backward-paragraph)
+;;   '("f" 'evil-insert)
+;;   '("u" 'evil-backward-WORD-begin)
+;;   '("U" 'evil-backward-sentence-begin)
+;;   '("o" 'evil-forward-word-end)
+;;   '("O" 'evil-forward-sentence-begin)
+;;   '("a" 'evil-visual-char)
+;;   '("\C-a" 'evil-visual-block)
+;;   '("s" 'evil-insert-line)
+;;   '("S" 'evil-insert-newline-above)
+;;   '("d" 'evil-append-line)
+;;   '("D" 'evil-insert-newline-below)
+;;   '("O" 'evil-forward-sentence-begin)
+;;   '("A" 'evil-visual-line)
+;;   '("z" 'undo-tree-undo)
+;;   '("\C-z" 'undo-tree-visualize-undo)
+;;   '("Z" 'undo-tree-redo)
+;;   '("x" 'evil-delete)
+;;   '("X" 'evil-delete-line)
+;;   '("v" 'evil-paste-before)
+;;   '("V" 'evil-paste-after)
+;;   '("-" 'evil-jump-backward)
+;;   '("y" 'evil-find-char)
+;;   '("Y" 'evil-find-char-backward)
+;;   '("C" 'evil-yank)
+;;   '("C" 'evil-yank)
+;;   '(":" 'evil-repeat-find-char)
+;;   '(";" 'evil-ex)))
+
+;; (message (car (cdr ergo-evil-keys)))
+
+;; (dolist (key-cmd ergo-evil-keys)
+;;   (dolist (state-map (list
+;;                        'evil-normal-state-map
+;;                        'evil-visual-state-map))
+;;     (define-key state-map (car key-cmd) (cdr key-cmd))))
 
 ;; remove all keybindings from insert-state keymap
 (defun setup-emacs-keys-in-insert-mode ()
@@ -689,6 +736,7 @@ _0_: delete         _[_: shrink horizontal     ^^
 ;;   ;; fix for work with yasnippet
 ;;   ;; (ac-set-trigger-key "TAB")
 ;;   ;; (ac-set-trigger-key "<tab>")
+
 ;;   )
 
 
