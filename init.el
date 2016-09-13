@@ -639,6 +639,15 @@ _0_: delete         _j_: shrink horizontal    ^^
 ("C-M-;" . evilnc-copy-and-comment-lines)
 ;; ("C-c p" . evilnc-comment-or-uncomment-paragraphs)
   )
+
+;; f, F, t, T cmds act like avy
+(use-package evil-avy
+  :config (evil-avy-mode))
+
+;; "%" operator matches paired parts (tags, braces, etc..)
+(use-package evil-matchit
+:config (global-evil-matchit-mode 1))
+
 ;; sublime-like minimap, smooth-scrolling, distraction-free mode
 ;; lags on big files (200000 lines 3,4mb) scroll unreal
 ;;(use-package sublimity
