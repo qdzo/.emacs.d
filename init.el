@@ -413,23 +413,24 @@
                   "
 ^Splitting^         ^Sizing^                   ^Navigation^
 ^^^^-----------------------------------------------------------
-_1_: close other    _\^_: enlarge vertical     _j_: jump 
-_2_: horizontal     _\__: shrink vertical        _s_: swap 
-_3_: vertical       _]_: enlarge horizontal    ^^
-_0_: delete         _[_: shrink horizontal     ^^
-^^                  _b_: balance windows      ^^
+_1_: close other    _i_: enlarge vertical     _o_: jump 
+_2_: horizontal     _k_: shrink vertical      _s_: swap 
+_3_: vertical       _l_: enlarge horizontal   _b_: open buffer
+_0_: delete         _j_: shrink horizontal    ^^
+^^                  _=_: balance windows      ^^
 "
                   ("1" delete-other-windows)
                   ("2" split-window-below)
                   ("3" split-window-right)
                   ("0" delete-window)
-                  ("^" enlarge-window )
-                  ("]" enlarge-window-horizontally)
-                  ("_" shrink-window)
-                  ("[" shrink-window-horizontally)
-                  ("b" balance-windows)
+                  ("i" enlarge-window )
+                  ("l" enlarge-window-horizontally)
+                  ("k" shrink-window)
+                  ("j" shrink-window-horizontally)
+                  ("=" balance-windows)
                   ("s" ace-swap-window)
-                  ("j" ace-window)
+                  ("b" helm-buffers-list)
+                  ("o" ace-window)
                   ("q" nil "quit" :color blue)))
 
 
@@ -601,7 +602,7 @@ _0_: delete         _[_: shrink horizontal     ^^
     ;; nerd-commenter keys
     "ci" 'evilnc-comment-or-uncomment-lines
     "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-    "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
+    ;; "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
     "cc" 'evilnc-copy-and-comment-lines
     "cp" 'evilnc-comment-or-uncomment-paragraphs
     "cr" 'comment-or-uncomment-region
@@ -609,18 +610,23 @@ _0_: delete         _[_: shrink horizontal     ^^
 
 
 (defun setup-ergo-evil-keys ()
-  (define-key evil-normal-state-map "h" 'evil-first-non-blank)
-  (define-key evil-normal-state-map "H" 'evil-end-of-line)
-  (define-key evil-normal-state-map "j" 'evil-backward-char)
-  (define-key evil-normal-state-map "k" 'evil-next-line)
-  (define-key evil-normal-state-map "K" 'evil-forward-paragraph)
-  (define-key evil-normal-state-map "i" 'evil-previous-line)
-  (define-key evil-normal-state-map "I" 'evil-backward-paragraph)
+  ;; movements 
+  (define-key evil-motion-state-map "h" 'evil-first-non-blank)
+  (define-key evil-motion-state-map "H" 'evil-end-of-line)
+  (define-key evil-motion-state-map "j" 'evil-backward-char)
+  (define-key evil-motion-state-map "k" 'evil-next-line)
+  (define-key evil-motion-state-map "K" 'evil-forward-paragraph)
+  (define-key evil-motion-state-map "i" 'evil-previous-line)
+  (define-key evil-motion-state-map "I" 'evil-backward-paragraph)
+  (define-key evil-motion-state-map "u" 'evil-backward-word-begin)
+  (define-key evil-motion-state-map "U" 'evil-backward-sentence-begin)
+  (define-key evil-motion-state-map "o" 'evil-forward-word-end)
+  (define-key evil-motion-state-map "O" 'evil-forward-sentence-begin)
+  (define-key evil-motion-state-map "-" 'evil-jump-backward)
+  (define-key evil-motion-state-map "y" 'evil-find-char)
+  (define-key evil-motion-state-map "Y" 'evil-find-char-backward)
+  ;; normal 
   (define-key evil-normal-state-map "f" 'evil-insert)
-  (define-key evil-normal-state-map "u" 'evil-backward-WORD-begin)
-  (define-key evil-normal-state-map "U" 'evil-backward-sentence-begin)
-  (define-key evil-normal-state-map "o" 'evil-forward-word-end)
-  (define-key evil-normal-state-map "O" 'evil-forward-sentence-begin)
   (define-key evil-normal-state-map "a" 'evil-visual-char)
   (define-key evil-normal-state-map "\C-a" 'evil-visual-block)
   (define-key evil-normal-state-map "s" 'evil-insert-line)
@@ -636,60 +642,59 @@ _0_: delete         _[_: shrink horizontal     ^^
   (define-key evil-normal-state-map "X" 'evil-delete-line)
   (define-key evil-normal-state-map "v" 'evil-paste-before)
   (define-key evil-normal-state-map "V" 'evil-paste-after)
-  (define-key evil-normal-state-map "-" 'evil-jump-backward)
-  (define-key evil-normal-state-map "y" 'evil-find-char)
-  (define-key evil-normal-state-map "Y" 'evil-find-char-backward)
   (define-key evil-normal-state-map "C" 'evil-yank)
   (define-key evil-normal-state-map "C" 'evil-yank)
   (define-key evil-normal-state-map ":" 'evil-repeat-find-char)
   (define-key evil-normal-state-map ";" 'evil-ex)
   )
 
-
+;; (setup-ergo-evil-keys)
 
 ;; (defvar ergo-evil-keys (list
-;;   '("h" 'evil-first-non-blank)
-;;   '("H" 'evil-end-of-line)
-;;   '("j" 'evil-backward-char)
-;;   '("k" 'evil-next-line)
-;;   '("K" 'evil-forward-paragraph)
-;;   '("i" 'evil-previous-line)
-;;   '("I" 'evil-backward-paragraph)
-;;   '("f" 'evil-insert)
-;;   '("u" 'evil-backward-WORD-begin)
-;;   '("U" 'evil-backward-sentence-begin)
-;;   '("o" 'evil-forward-word-end)
-;;   '("O" 'evil-forward-sentence-begin)
-;;   '("a" 'evil-visual-char)
-;;   '("\C-a" 'evil-visual-block)
-;;   '("s" 'evil-insert-line)
-;;   '("S" 'evil-insert-newline-above)
-;;   '("d" 'evil-append-line)
-;;   '("D" 'evil-insert-newline-below)
-;;   '("O" 'evil-forward-sentence-begin)
-;;   '("A" 'evil-visual-line)
-;;   '("z" 'undo-tree-undo)
-;;   '("\C-z" 'undo-tree-visualize-undo)
+;;   '("h" evil-first-non-blank)
+;;   '("H" evil-end-of-line)
+;;   '("j" evil-backward-char)
+;;   '("k" evil-next-line)
+;;   '("K" evil-forward-paragraph)
+;;   ;; '("i" evil-previous-line)
+;;   '("I" evil-backward-paragraph)
+;;   '("f" evil-insert)
+;;   '("u" evil-backward-word-begin)
+;;   '("U" evil-backward-sentence-begin)
+;;   '("o" evil-forward-word-end)
+;;   '("O" evil-forward-sentence-begin)
+;;   ;; '("a" evil-visual-char)
+;;   '("\C-a" evil-visual-block)
+;;   '("s" evil-insert-line)
+;;   '("S" evil-insert-newline-above)
+;;   '("d" evil-append-line)
+;;   '("D" evil-insert-newline-below)
+;;   '("O" evil-forward-sentence-begin)
+;;   '("A" evil-visual-line)
+;;   '("z" undo-tree-undo)
+;;   '("\C-z" undo-tree-visualize-undo)
 ;;   '("Z" 'undo-tree-redo)
-;;   '("x" 'evil-delete)
-;;   '("X" 'evil-delete-line)
-;;   '("v" 'evil-paste-before)
-;;   '("V" 'evil-paste-after)
-;;   '("-" 'evil-jump-backward)
-;;   '("y" 'evil-find-char)
-;;   '("Y" 'evil-find-char-backward)
-;;   '("C" 'evil-yank)
-;;   '("C" 'evil-yank)
-;;   '(":" 'evil-repeat-find-char)
-;;   '(";" 'evil-ex)))
+;;   '("x" evil-delete)
+;;   '("X" evil-delete-line)
+;;   '("v" evil-paste-before)
+;;   '("V" evil-paste-after)
+;;   '("-" evil-jump-backward)
+;;   '("y" evil-find-char)
+;;   '("Y" evil-find-char-backward)
+;;   '("C" evil-yank)
+;;   '("C" evil-yank)
+;;   '(":" evil-repeat-find-char)
+;;   '(";" evil-ex)))
 
 ;; (message (car (cdr ergo-evil-keys)))
 
-;; (dolist (key-cmd ergo-evil-keys)
+;; (dolist (key-cmd ergo-evil-keys) 
 ;;   (dolist (state-map (list
-;;                        'evil-normal-state-map
-;;                        'evil-visual-state-map))
-;;     (define-key state-map (car key-cmd) (cdr key-cmd))))
+;;                        evil-normal-state-map
+;;                        evil-visual-state-map))
+;;     ;; (message (car key-cmd))))
+;;     (define-key state-map (car key-cmd) (car (cdr key-cmd)))))
+
 
 ;; remove all keybindings from insert-state keymap
 (defun setup-emacs-keys-in-insert-mode ()
@@ -706,7 +711,10 @@ _0_: delete         _[_: shrink horizontal     ^^
 
 ;; vim surround port
 (use-package evil-surround
-  :config (global-evil-surround-mode 1))
+  :config (global-evil-surround-mode 1)
+  ;; best surround key in visual-mode
+  ;; (define-key evil-visual-state-map "s" 'evil-surround-region)
+  )
 
 
 (use-package evil-nerd-commenter
