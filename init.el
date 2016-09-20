@@ -38,11 +38,10 @@
 
 
 ;; font size
-(if (string= (system-name) "pluton")
+(if (string= (system-name) "pluton.mshome.net")
     (set-frame-font "DroidSansMonoForPowerline Nerd Font 15")
-  (set-frame-font "Inconsolata 15"))
-
-
+ ;; (set-frame-font "Inconsolata 15")
+  )
 
 
 ;; thin line cursor type
